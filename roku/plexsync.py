@@ -1,6 +1,16 @@
 from roku import Roku
 import time
 
+def sleep_check( roku, secs ):
+    responded = False
+    while not responded :
+        try:
+            roku.device_info
+            responded = True
+        except ConnectionError:
+            pass
+        time.sleep( secs )
+
 def play( video ):
 
     PLEX_ID = 13535
@@ -49,13 +59,13 @@ def play( video ):
         roku.up()
         roku.up()
         roku.right()
-        time.sleep(2)
+        sleep_check( roku, 3 )
         roku.down()
         roku.play()
-        time.sleep(2)
+        sleep_check( roku, 3 )
         roku.down()
         roku.select()
-        time.sleep(2)
+        sleep_check( roku, 3 )
         roku.play()
         print( f'    Video "{video}_{location}" paused')
 
@@ -81,8 +91,8 @@ def play_sequence( sequence ):
 if __name__ == "__main__":
 
     play_sequence([
-        ['2020INSP', 3600],
-        ['2020INSP', 3600],
-        ['2020INSP', 3600],
-        ['2020INSP', 3600]
+        ['2020INSP', 3500],
+        ['2020INSP', 3500],
+        ['2020INSP', 3500],
+        ['2020INSP', 3500]
     ])
